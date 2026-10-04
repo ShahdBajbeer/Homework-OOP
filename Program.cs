@@ -1,76 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ConsoleApp14
+namespace ShapeApp
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            Car myCar = new Car("Toyota", 2024, 4);
-            Bus myBus = new Bus("Mercedes", 2023, 50);
-            Motorcycle myBike = new Motorcycle("Harley-Davidson", 2022, false);
+            List<Shape> shapes = new List<Shape>
+            {
+                new Circle(5.0),
+                new Rectangle(4.0, 6.0)
+            };
 
-            Console.WriteLine($"Car Brand: {myCar.Brand}, Year: {myCar.Year}, Doors: {myCar.NumberOfDoors}");
-            myCar.Start();
-            Console.WriteLine();
-
-            Console.WriteLine($"Bus Brand: {myBus.Brand}, Year: {myBus.Year}, Capacity: {myBus.Capacity} passengers");
-            myBus.Start();
-            Console.WriteLine();
-
-            Console.WriteLine($"Motorcycle Brand: {myBike.Brand}, Year: {myBike.Year}, Has Sidecar: {myBike.HasSidecar}");
-            myBike.Start();
+            foreach (Shape shape in shapes)
+            {
+                Console.WriteLine($"Shape Type: {shape.GetType().Name}");
+                Console.WriteLine($"Area: {shape.CalculateArea()}");
+                Console.WriteLine("-------------------");
+            }
         }
     }
 
-    public class Vehicle
+    public class Shape
     {
-        public string Brand { get; set; }
-        public int Year { get; set; }
-
-        public Vehicle(string brand, int year)
+        public virtual double CalculateArea()
         {
-            Brand = brand;
-            Year = year;
-        }
-
-        public virtual void Start()
-        {
-            Console.WriteLine($"The {Brand} vehicle is starting.");
+            return 0.0;
         }
     }
 
-    public class Car : Vehicle
+    public class Circle : Shape
     {
-        public int NumberOfDoors { get; set; }
+        public double Radius { get; set; }
 
-        public Car(string brand, int year, int numberOfDoors) : base(brand, year)
+        public Circle(double radius)
         {
-            NumberOfDoors = numberOfDoors;
+            Radius = radius;
+        }
+
+        public override double CalculateArea()
+        {
+            return Math.PI * Radius * Radius;
         }
     }
 
-    public class Bus : Vehicle
+    public class Rectangle : Shape
     {
-        public int Capacity { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
 
-        public Bus(string brand, int year, int capacity) : base(brand, year)
+        public Rectangle(double width, double height)
         {
-            Capacity = capacity;
+            Width = width;
+            Height = height;
         }
-    }
 
-    public class Motorcycle : Vehicle
-    {
-        public bool HasSidecar { get; set; }
-
-        public Motorcycle(string brand, int year, bool hasSidecar) : base(brand, year)
+        public override double CalculateArea()
         {
-            HasSidecar = hasSidecar;
+            return Width * Height;
         }
     }
 }
